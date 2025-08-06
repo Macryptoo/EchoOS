@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EchoOS - EthOS Update Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+
+</head>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const navHome = document.getElementById("nav-home");
+    const navUpdates = document.getElementById("nav-updates");
+
+    const heroSection = document.getElementById("hero-section");
+    const introSection = document.getElementById("intro-section");
+    const updatesSection = document.getElementById("latest-updates-section");
+    const updatesContainer = document.getElementById("latest-updates");
+
+    if (!navHome || !navUpdates || !heroSection || !introSection || !updatesSection || !updatesContainer) {
+      console.error("Some DOM elements are missing.");
+      return;
+    }
+
+    // Toggle to Updates
+    navUpdates.addEventListener("click", (e) => {
+      e.preventDefault();
+      heroSection.style.display = "none";
+      introSection.style.display = "none";
+      updatesSection.style.display = "block";
+    });
+
+    // Toggle to Home
+    navHome.addEventListener("click", (e) => {
+      e.preventDefault();
+      heroSection.style.display = "block";
+      introSection.style.display = "block";
+      updatesSection.style.display = "none";
+    });
+
+    // Fetch RSS Feed
+    fetch("https://api.rss2json.com/v1/api.json?rss_url=https://rss.app/feeds/sEom3J3ARnF0PN8I.xml")
+      .then(response => response.json())
+      .then(data => {
+        updatesContainer.innerHTML = "";
+
+        data.items.slice(0, 3).forEach(item => {
+          const updateCard = document.createElement("div");
+          updateCard.className = "update-card";
+          updateCard.style.background = "#1a1a2e";
+          updateCard.style.border = "1px solid #4e4e7a";
+          updateCard.style.padding = "16px";
+          updateCard.style.borderRadius = "10px";
+          updateCard.style.marginBottom = "16px";
+          updateCard.style.boxShadow = "0 2px 10px rgba(0,0,0,0.2)";
+
+          const date = new Date(item.pubDate);
+          const formattedDate = date.toISOString().split("T")[0];
+
+          updateCard.innerHTML = `
+            <h3>📰 ${formattedDate} — ${item.title}</h3>
+            <p>${item.description}</p>
+            <a href="${item.link}" target="_blank" style="color:#00ffff;">View Tweet</a>
+          `;
+          updatesContainer.appendChild(updateCard);
+        });
+      })
+      .catch(error => {
+        console.error("Failed to load updates:", error);
+        updatesContainer.innerHTML = "<p>Failed to load updates.</p>";
+      });
+  });
+</script>
+
+<body>
+  <header>
+    <div class="logo">EchoOS</div>
+    <nav>
+      <a href="#" id="nav-home">Home</a>
+      <a href="#" id="nav-updates">Updates</a>
+      <a href="#">Threads</a>
+      <a href="#">Docs</a>
+      <a href="#">Tools</a>
+    </nav>
+  </header>
+
+  <!-- Bagian Hero -->
+  <section class="hero" id="hero-section">
+    <h1>Stay Synced with the Evolution of EthOS</h1>
+    <p>Updates, threads, and insights from the on-chain attention protocol.</p>
+    <a href="https://ethos.vision" class="cta">Launch EthOS</a>
+  </section>
+
+  <!-- Bagian Introducing EthOS -->
+  <section class="updates" id="intro-section">
+    <h2>Introducing EthOS</h2>
+
+    <div class="update-card">
+      <h3>🧠 What is EthOS?</h3>
+      <p>EthOS is not an app or a social platform...</p>
+    </div>
+    <div class="update-card">
+      <h3>⚙️ How It Works</h3>
+      <p>Through likes, reposts, and mentions...</p>
+    </div>
+    <div class="update-card">
+      <h3>🌐 Why EchoOS?</h3>
+      <p>EchoOS is your update center...</p>
+    </div>
+  </section>
+
+  <!-- Bagian Latest Updates (awal disembunyikan) -->
+  <section class="updates" id="latest-updates-section" style="display: none;">
+    <h2>Latest Updates</h2>
+    <div id="latest-updates"></div>
+  </section>
+
+  <footer>
+    <p>Built by the community, for the community. © 2025 EchoOS</p>
+  </footer>
+</body>
