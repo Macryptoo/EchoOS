@@ -1,19 +1,21 @@
 @font-face {
   font-family: 'Chiq Reduced Bold';
-  src: url('./fonts/Chiq_Reduced_Bold.ttf') format('truetype');
+  src: url('fonts/Chiq_Reduced_Bold.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 body {
-  background-image: url('Ethos-beck.png'); /* Ganti dengan nama file gambarmu */
+  background-image: url('Ethos-beck.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  color: rgb(255, 255, 255); /* Sesuaikan warna teks jika perlu */
-  font-family: 'Chiq Reduced Bold', sans-serif;
+  color: rgb(255, 255, 255);
+  font-family: 'Chiq Reduced Bold'; /* ✅ INI YANG BENAR */
 }
+
+
 
 
 header {
